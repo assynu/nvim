@@ -1,1 +1,2 @@
-require("assynu")
+require('config.lazy')
+require('config.set')
