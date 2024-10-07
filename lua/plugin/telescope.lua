@@ -6,7 +6,14 @@ return {
             {
                 "nvim-telescope/telescope-live-grep-args.nvim" ,
                 version = "^1.0.0",
+            },
+            {
+                'nvim-telescope/telescope-fzf-native.nvim',
+                build = 'make',
             }
+        },
+        opts = {
+            extensions_list = {"fzf", "live-grep-args"}
         },
         config = function()
             local telescope = require('telescope')
@@ -27,11 +34,8 @@ return {
                 },
             })
 
-            telescope.load_extension("live_grep_args")
-            telescope.load_extension("fzf")
-
             local builtin = require('telescope.builtin')
-            
+
             vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = 'Telescope find files' })
             vim.keymap.set('n', '<leader>gf', builtin.git_files, { desc = 'Telescope find git files' })
             vim.keymap.set("n", "<leader>fg", ":lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>")
@@ -44,8 +48,4 @@ return {
             vim.keymap.set("n", "<space>fb", ":Telescope file_browser<CR>")
         end
     },
-    {
-        'nvim-telescope/telescope-fzf-native.nvim',
-        build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release'
-    }
 }
