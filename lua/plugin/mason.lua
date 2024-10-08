@@ -9,7 +9,7 @@ return {
         "williamboman/mason-lspconfig.nvim",
         config = function()
             require('mason-lspconfig').setup({
-                ensure_installed = { 'lua_ls', 'csharp_ls', 'harper_ls', 'ts_ls', 'jsonls' },
+                ensure_installed = { 'lua_ls', 'ts_ls', 'jsonls' },
                 handlers = {
                     function(server_name)
                         require('lspconfig')[server_name].setup({})
