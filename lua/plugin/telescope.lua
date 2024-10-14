@@ -40,12 +40,5 @@ return {
             vim.keymap.set('n', '<leader>gf', builtin.git_files, { desc = 'Telescope find git files' })
             vim.keymap.set("n", "<leader>fg", ":lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>")
         end
-    },
-    {
-        "nvim-telescope/telescope-file-browser.nvim",
-        dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" },
-        config = function()
-            vim.keymap.set("n", "<space>fb", ":Telescope file_browser<CR>")
-        end
-    },
+    }
 }
