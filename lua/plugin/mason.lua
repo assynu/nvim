@@ -30,6 +30,9 @@ return {
                                         end
                                     end
 
+                                    local config_dir = vim.fn.stdpath("config")
+                                    local cfx_library_path = config_dir .. "/lua/libraries/lua/cfx/library"
+
                                     client.config.settings.Lua = vim.tbl_deep_extend('force', client.config.settings.Lua, {
                                         runtime = {
                                             version = "Lua 5.4"
@@ -37,9 +40,8 @@ return {
                                         workspace = {
                                             checkThirdParty = false,
                                             library = {
-                                                vim.env.VIMRUNTIME
-                                                "C:/Users/dawid/Documents/LuaExtension/fivem-lls-addon/library",
-                                                "/mnt/c/Users/dawid/Documents/LuaExtension/fivem-lls-addon/library"
+                                                vim.env.VIMRUNTIME,
+                                                cfx_library_path, -- Add cfx library path
                                             }
                                         }
                                     })
@@ -57,3 +59,4 @@ return {
         end
     }
 }
+
