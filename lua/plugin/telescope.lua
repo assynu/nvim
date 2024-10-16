@@ -7,13 +7,9 @@ return {
                 "nvim-telescope/telescope-live-grep-args.nvim" ,
                 version = "^1.0.0",
             },
-            {
-                'nvim-telescope/telescope-fzf-native.nvim',
-                build = 'make',
-            }
         },
         opts = {
-            extensions_list = {"fzf", "live-grep-args"}
+            extensions_list = {"live-grep-args"}
         },
         config = function()
             local telescope = require('telescope')
