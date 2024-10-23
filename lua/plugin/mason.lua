@@ -21,30 +21,57 @@ return {
                     function(server_name)
                         if server_name == 'lua_ls' then
                             require("lspconfig").lua_ls.setup({
+                                on_attach = function(client)
+                                    client.server_capabilities.documentFormattingProvider = true
+                                    client.server_capabilities.documentRangeFormattingProvider = true
+                                end,
                                 settings = {
                                     Lua = {
                                         diagnostics = {
                                             globals = { 'vim', 'Core', 'lib', 'cache' }
                                         },
                                         runtime = {
-                                            version = "Lua 5.4"
+                                            version = "Lua 5.4",
+                                            nonstandardSymbol = {
+                                                "/**/",
+                                                "`",
+                                                "+=",
+                                                "-=",
+                                                "*=",
+                                                "/=",
+                                                "<<=",
+                                                ">>=",
+                                                "&=",
+                                                "|=",
+                                                "^="
+                                            },
                                         },
                                         workspace = {
                                             checkThirdParty = false,
                                             library = {
                                                 vim.env.VIMRUNTIME,
                                                 ("%s/lua/libraries/lua/cfx/library"):format(vim.fn.stdpath("config")),
+                                            },
+                                            ignoreDir = {
+                                                ".vscode",
+                                                ".git",
+                                                ".github",
+                                                "node_modules",
+                                                "web"
                                             }
                                         },
+                                        telemetry = {
+                                            enable = false,
+                                        },
+                                        format = {
+                                            enable = true,
+                                            defaultConfig = {
+                                                indent_style = "space",
+                                                indent_size = "4"
+                                            },
+                                        },
                                     },
-                                },
-                                root_dir = function(fname)
-                                    return require("lspconfig").util.root_pattern(
-                                        'fxmanifest.lua',  -- Add fxmanifest.lua as a root marker
-                                        '.git',            -- Check for .git directory as root
-                                        'init.lua'         -- Default Lua init file
-                                    )(fname)
-                                end
+                                }
                             })
                         else
                             require('lspconfig')[server_name].setup({})
@@ -55,4 +82,3 @@ return {
         end
     }
 }
-
