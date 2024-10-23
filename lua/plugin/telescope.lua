@@ -21,7 +21,7 @@ return {
                         find_command = {
                             "rg",
                             "--files",
-                            "--glob",
+                            "--.glob",
                             "!{.git/*,.svelte-kit/*,target/*,node_modules/*}",
                             "--path-separator",
                             "/",
