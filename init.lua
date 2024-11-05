@@ -1,3 +1,3 @@
-require('config.lazy')
-require('config.set')
-require('config.remap')
+require('assynu..lazy')
+require('assynu.set')
+require('assynu.remap')
