@@ -27,6 +27,7 @@ return {
         require("mason-lspconfig").setup({
             ensure_installed = {
                 "lua_ls",
+                "ts_ls"
             },
             handlers = {
                 function(server_name) -- default handler (optional)
@@ -38,12 +39,51 @@ return {
                 ["lua_ls"] = function()
                     local lspconfig = require("lspconfig")
                     lspconfig.lua_ls.setup {
+                        root_dir = function(fname)
+                            local util = require ("lspconfig.util")
+                            local root = util.root_pattern(".git", "fxmanifest.lua")(fname)
+                            if root and root ~= vim.env.HOME then
+                                return root
+                            end
+                            local root_lua = util.root_pattern 'lua/'(fname) or ''
+                            local root_git = util.find_git_ancestor(fname) or ''
+                            if root_lua == '' and root_git == '' then
+                                return
+                            end
+                            return #root_lua >= #root_git and root_lua or root_git
+                        end,
                         capabilities = capabilities,
                         settings = {
                             Lua = {
-                                runtime = { version = "Lua 5.1" },
+                                runtime = {
+                                    version = "Lua 5.4",
+                                    pathStrict = true,
+                                    nonstandardSymbol = {
+                                        "/**/",
+                                        "`",
+                                        "+=",
+                                        "-=",
+                                        "*=",
+                                        "/=",
+                                        "<<=",
+                                        ">>=",
+                                        "&=",
+                                        "|=",
+                                        "^="
+                                    }
+                                },
                                 diagnostics = {
                                     globals = { "bit", "vim", "it", "describe", "before_each", "after_each" },
+                                    -- disable = { "lowercase-global", "undefined-global" }
+                                },
+                                workspace = {
+                                    ignoreDir = {
+                                        ".vscode",
+                                        ".git",
+                                        ".github",
+                                        "node_modules",
+                                        "web"
+                                    }
                                 }
                             }
                         }
