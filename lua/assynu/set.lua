@@ -26,5 +26,4 @@ vim.opt.updatetime = 50
 
 vim.opt.relativenumber = true
 
-vim.o.background = "dark"
-vim.cmd([[colorscheme gruvbox]])
+vim.cmd.colorscheme("rose-pine-moon")
