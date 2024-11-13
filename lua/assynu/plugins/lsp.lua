@@ -83,6 +83,9 @@ return {
                                         ".github",
                                         "node_modules",
                                         "web"
+                                    },
+                                    library = {
+                                        "/home/assynu/libraries/lua/cfx"
                                     }
                                 }
                             }
