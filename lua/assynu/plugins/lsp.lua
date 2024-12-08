@@ -28,7 +28,7 @@ return {
             ensure_installed = {
                 "lua_ls",
                 "ts_ls",
-                "harper_ls"
+                "clangd"
             },
             handlers = {
                 function(server_name) -- default handler (optional)
