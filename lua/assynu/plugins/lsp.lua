@@ -58,7 +58,6 @@ return {
                             Lua = {
                                 runtime = {
                                     version = "Lua 5.4",
-                                    pathStrict = true,
                                     nonstandardSymbol = {
                                         "/**/",
                                         "`",
@@ -71,11 +70,20 @@ return {
                                         "&=",
                                         "|=",
                                         "^="
+                                    },
+                                    special = {
+                                        ["lib.load"] = "require"
+                                    },
+                                    pathStrict = true,
+                                    plugin = vim.fn.stdpath('config') .. '/lua/assynu/lls-plugins/fivem.lua'
+                                },
+                                misc = {
+                                    parameters = {
+                                        "--develop=true"
                                     }
                                 },
                                 diagnostics = {
                                     globals = { "bit", "vim", "it", "describe", "before_each", "after_each" },
-                                    -- disable = { "lowercase-global", "undefined-global" }
                                 },
                                 workspace = {
                                     ignoreDir = {
