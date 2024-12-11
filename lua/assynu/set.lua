@@ -26,4 +26,4 @@ vim.opt.updatetime = 50
 
 vim.opt.relativenumber = true
 
-vim.cmd.colorscheme("rose-pine-moon")
+vim.cmd.colorscheme("nord")

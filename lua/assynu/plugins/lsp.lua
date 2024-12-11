@@ -31,7 +31,7 @@ return {
                 "clangd"
             },
             handlers = {
-                function(server_name) -- default handler (optional)
+                function(server_name)
                     require("lspconfig")[server_name].setup {
                         capabilities = capabilities
                     }
