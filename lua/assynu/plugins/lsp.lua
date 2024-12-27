@@ -29,7 +29,8 @@ return {
                 "lua_ls",
                 "ts_ls",
                 "clangd",
-                "csharp_ls"
+                "csharp_ls",
+                "jdtls"
             },
             handlers = {
                 function(server_name)
