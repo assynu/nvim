@@ -26,15 +26,79 @@ return {
         require("mason").setup()
         require("mason-lspconfig").setup({
             ensure_installed = {
-                "lua_ls",
-                "ts_ls",
+                "lua_ls"
             },
             handlers = {
                 function(server_name)
                     require("lspconfig")[server_name].setup {
                         capabilities = capabilities
                     }
-                end
+                end,
+
+                ["lua_ls"] = function()
+                    local lspconfig = require("lspconfig")
+                    lspconfig.lua_ls.setup {
+                        root_dir = function(fname)
+                            local util = require ("lspconfig.util")
+                            local root = util.root_pattern(".git", "fxmanifest.lua")(fname)
+                            if root and root ~= vim.env.HOME then
+                                return root
+                            end
+                            local root_lua = util.root_pattern 'lua/'(fname) or ''
+                            local root_git = util.find_git_ancestor(fname) or ''
+                            if root_lua == '' and root_git == '' then
+                                return
+                            end
+                            return #root_lua >= #root_git and root_lua or root_git
+                        end,
+                        capabilities = capabilities,
+                        settings = {
+                            Lua = {
+                                runtime = {
+                                    version = "Lua 5.4",
+                                    nonstandardSymbol = {
+                                        "/**/",
+                                        "`",
+                                        "+=",
+                                        "-=",
+                                        "*=",
+                                        "/=",
+                                        "<<=",
+                                        ">>=",
+                                        "&=",
+                                        "|=",
+                                        "^="
+                                    },
+                                    special = {
+                                        ["lib.load"] = "require"
+                                    },
+                                    pathStrict = true,
+                                    plugin = vim.fn.stdpath('config') .. '/lua/assynu/lls-plugins/fivem.lua'
+                                },
+                                misc = {
+                                    parameters = {
+                                        "--develop=true"
+                                    }
+                                },
+                                diagnostics = {
+                                    globals = { "bit", "vim", "it", "describe", "before_each", "after_each" },
+                                },
+                                workspace = {
+                                    ignoreDir = {
+                                        ".vscode",
+                                        ".git",
+                                        ".github",
+                                        "node_modules",
+                                        "web"
+                                    },
+                                    library = {
+                                        vim.fn.stdpath('config') .. "/libraries/lua/cfx"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                end,
             }
         })
 
@@ -43,7 +107,7 @@ return {
         cmp.setup({
             snippet = {
                 expand = function(args)
-                    require('luasnip').lsp_expand(args.body)
+                    require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
                 end,
             },
             mapping = cmp.mapping.preset.insert({
@@ -54,7 +118,7 @@ return {
             }),
             sources = cmp.config.sources({
                 { name = 'nvim_lsp' },
-                { name = 'luasnip' }
+                { name = 'luasnip' }, -- For luasnip users.
             }, {
                 { name = 'buffer' },
             })
