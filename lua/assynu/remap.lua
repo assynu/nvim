@@ -5,3 +5,7 @@ vim.keymap.set("n", "<leader>w", vim.cmd.w)
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
 vim.keymap.set("n", "n", "nzzzv")
+
+vim.keymap.set("n", "<C-h>", ":lua vim.lsp.buf.signature_help()<CR>")
+vim.keymap.set("i", "<C-h>", ":lua vim.lsp.buf.signature_help()<CR>")
+vim.keymap.set('i', '(', '()<Left><cmd>lua vim.lsp.buf.signature_help()<CR>')

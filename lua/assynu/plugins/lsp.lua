@@ -39,18 +39,21 @@ return {
                     local lspconfig = require("lspconfig")
                     lspconfig.lua_ls.setup {
                         root_dir = function(fname)
-                            local util = require ("lspconfig.util")
-                            local root = util.root_pattern(".git", "fxmanifest.lua")(fname)
-                            if root and root ~= vim.env.HOME then
-                                return root
+                            local util = require("lspconfig.util")
+
+                            local fx_root = util.root_pattern("fxmanifest.lua")(fname)
+                            if fx_root and fx_root ~= vim.env.HOME then
+                                return fx_root
                             end
-                            local root_lua = util.root_pattern 'lua/'(fname) or ''
-                            local root_git = util.find_git_ancestor(fname) or ''
-                            if root_lua == '' and root_git == '' then
-                                return
+
+                            local git_root = util.root_pattern(".git")(fname)
+                            if git_root and git_root ~= vim.env.HOME then
+                                return git_root
                             end
-                            return #root_lua >= #root_git and root_lua or root_git
+
+                            return util.path.dirname(fname)
                         end,
+
                         capabilities = capabilities,
                         settings = {
                             Lua = {
@@ -88,11 +91,13 @@ return {
                                         ".vscode",
                                         ".git",
                                         ".github",
+                                        "dist",
+                                        "stream",
                                         "node_modules",
                                         "web"
                                     },
                                     library = {
-                                        vim.fn.stdpath('config') .. "/libraries/lua/cfx"
+                                        [vim.fn.stdpath('config') .. "/libraries/lua/cfx"] = true,
                                     }
                                 }
                             }
@@ -120,12 +125,15 @@ return {
                 { name = 'nvim_lsp' },
                 { name = 'luasnip' }, -- For luasnip users.
             }, {
-                { name = 'buffer' },
-            })
+                    { name = 'buffer' },
+                })
         })
 
         vim.diagnostic.config({
-            -- update_in_insert = true,
+            virtual_text = {
+                prefix = '●',
+                spacing = 2,
+            },
             float = {
                 focusable = false,
                 style = "minimal",
@@ -134,6 +142,7 @@ return {
                 header = "",
                 prefix = "",
             },
+            update_in_insert = true,
         })
     end
 }
