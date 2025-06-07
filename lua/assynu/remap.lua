@@ -8,4 +8,3 @@ vim.keymap.set("n", "n", "nzzzv")
 
 vim.keymap.set("n", "<C-h>", ":lua vim.lsp.buf.signature_help()<CR>")
 vim.keymap.set("i", "<C-h>", ":lua vim.lsp.buf.signature_help()<CR>")
-vim.keymap.set('i', '(', '()<Left><cmd>lua vim.lsp.buf.signature_help()<CR>')
