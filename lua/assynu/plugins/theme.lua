@@ -10,7 +10,7 @@ return {
                 },
             })
 
-            --vim.cmd("colorscheme rose-pine")
+            vim.cmd("colorscheme rose-pine")
         end
     },
     {
@@ -22,7 +22,7 @@ return {
                 flavour = "macchiato",
                 transparent_background = true
             })
-            vim.cmd("colorscheme catppuccin")
+            --vim.cmd("colorscheme catppuccin")
         end
     }
 }
