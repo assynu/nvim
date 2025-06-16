@@ -281,19 +281,6 @@ require("lazy").setup({
             }
 
             require('lspconfig').lua_ls.setup({
-                on_attach = function(client, bufnr)
-                    client.notify("workspace/didChangeConfiguration", {
-                        settings = client.config.settings,
-                    })
-
-                    client.config.settings.Lua = vim.tbl_deep_extend(
-                        'force',
-                        client.config.settings.Lua,
-                        {}
-                    )
-
-                    print("Lua version:", client.config.settings.Lua.runtime.version)
-                end,
                 capabilities = capabilities,
                 root_dir = function(fname)
                     local util = require("lspconfig.util")
@@ -355,23 +342,66 @@ require("lazy").setup({
                     },
                 },
                 on_init = function(client)
-                    local join = vim.fs.joinpath
-                    local path = client.workspace_folders[1].name
-
-                    --[[
-                    if vim.uv.fs_stat(join(path, '.luarc.json'))
-                        or vim.uv.fs_stat(join(path, '.luarc.jsonc'))
-                    then
-                        return
+                    if not client.config.settings then
+                        client.config.settings = {}
                     end
-                    ]]
 
-                    client.config.settings.Lua = vim.tbl_deep_extend(
-                        'force',
-                        client.config.settings.Lua,
-                        {}
+                    local function ensure_luarc_exists(root_dir)
+                        local luarc_path = root_dir .. "/.luarc.json"
+                        local uv = vim.loop
+
+                        local stat = uv.fs_stat(luarc_path)
+                        if stat == nil then
+                            local content = '{"runtime":{"version":"Lua 5.4"}}'
+
+                            local fd = uv.fs_open(luarc_path, "w", 438) -- 438 = 0o666
+                            if fd then
+                                uv.fs_write(fd, content, -1)
+                                uv.fs_close(fd)
+                                print(".luarc.json created with runtime.version = Lua 5.4")
+                            else
+                                print("Failed to create .luarc.json")
+                            end
+                        end
+                    end
+
+                    local root_dir = client.config.root_dir or vim.fn.getcwd()
+                    ensure_luarc_exists(root_dir)
+
+                    client.config.settings.Lua = vim.tbl_deep_extend('force',
+                        client.config.settings.Lua or {},
+                        {
+                            runtime = {
+                                version = "Lua 5.4",
+                                pathStrict = true,
+                                nonstandardSymbol = { "+=", "-=", "*=", "/=", "<<=", ">>=", "&=", "|=", "^=" },
+                                plugin = vim.fn.stdpath('config') .. '/lua/assynu/lls-plugins/fivem.lua',
+                                special = {
+                                    ["lib.load"] = "require",
+                                },
+                            },
+                            workspace = {
+                                ignoreDir = { ".vscode", ".git", ".github", "dist", "stream", "node_modules", "web" },
+                                library = {
+                                    vim.fn.stdpath('config') .. "/libraries/lua/cfx"
+                                },
+                                checkThirdParty = false, -- <== crucial
+                            },
+                            diagnostics = {
+                                globals = { "lib", "cache", "Core", "MySQL", "bit", "vim", "it", "describe", "before_each", "after_each" },
+                            },
+                            telemetry = { enable = false },
+                            format = {
+                                enable = true,
+                                defaultConfig = {
+                                    indent_style = "space",
+                                    indent_size = "4",
+                                },
+                            },
+                        }
                     )
-                end,
+                end
+
             })
         end,
     },
