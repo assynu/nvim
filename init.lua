@@ -25,7 +25,7 @@ vim.o.signcolumn = "yes"
 
 vim.o.updatetime = 250
 
-vim.o.timeoutlen = 300
+vim.o.timeoutlen = 1000
 
 vim.o.splitright = true
 vim.o.splitbelow = true
@@ -289,15 +289,33 @@ require("lazy").setup({
 				},
 			})
 
-			local capabilities = require("blink.cmp").get_lsp_capabilities()
+			local capabilities = vim.tbl_deep_extend(
+				"force",
+				{},
+				vim.lsp.protocol.make_client_capabilities(),
+				require("blink.cmp").get_lsp_capabilities()
+			)
 
 			local servers = {
 				lua_ls = {
+					capabilities = capabilities,
+					root_dir = function(fname)
+						local util = require("lspconfig.util")
+
+						local fx_root = util.root_pattern("fxmanifest.lua")(fname)
+						if fx_root and fx_root ~= vim.env.HOME then
+							return fx_root
+						end
+
+						local git_root <const> = util.root_pattern(".git")(fname)
+						if git_root and git_root ~= vim.env.HOME then
+							return git_root
+						end
+
+						return util.path.dirname(fname)
+					end,
 					settings = {
 						Lua = {
-							completion = {
-								callSnippet = "Replace",
-							},
 							runtime = {
 								version = "Lua 5.4",
 								path = vim.split(package.path, ";"),
@@ -352,15 +370,14 @@ require("lazy").setup({
 				},
 			}
 
-			local ensure_installed = vim.tbl_keys(servers or {})
-			vim.list_extend(ensure_installed, {
-				"stylua",
-			})
-			require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
+			require("lspconfig").lua_ls.setup(servers.lua_ls)
 
 			require("mason-lspconfig").setup({
 				ensure_installed = {}, -- explicitly set to an empty table (Kickstart populates installs via mason-tool-installer)
 				automatic_installation = false,
+				automatic_enable = {
+					exclude = { "lua_ls" },
+				},
 				handlers = {
 					function(server_name)
 						local server = servers[server_name] or {}
@@ -388,23 +405,8 @@ require("lazy").setup({
 		},
 		opts = {
 			notify_on_error = false,
-			--[[
-			format_on_save = function(bufnr)
-				local disable_filetypes = { c = true, cpp = true }
-				if disable_filetypes[vim.bo[bufnr].filetype] then
-					return nil
-				else
-					return {
-						timeout_ms = 500,
-						lsp_format = "fallback",
-					}
-				end
-			end,
-            ]]
 			format_on_save = false,
-			formatters_by_ft = {
-				lua = { "stylua" },
-			},
+			formatters_by_ft = {},
 		},
 	},
 
