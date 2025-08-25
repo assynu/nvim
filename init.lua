@@ -74,6 +74,8 @@ vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "<C-h>", ":lua vim.lsp.buf.signature_help()<CR>")
 vim.keymap.set("i", "<C-h>", ":lua vim.lsp.buf.signature_help()<CR>")
 
+vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, { desc = 'Code Action' })
+
 vim.api.nvim_create_autocmd("TextYankPost", {
     desc = "Highlight when yanking (copying) text",
     group = vim.api.nvim_create_augroup("kickstart-highlight-yank", { clear = true }),
@@ -542,6 +544,7 @@ require("lazy").setup({
             ensure_installed = {
                 "bash",
                 "c",
+                "c_sharp",
                 "diff",
                 "html",
                 "lua",
