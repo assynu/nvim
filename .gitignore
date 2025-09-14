@@ -1,2 +1,4 @@
 lazy-lock.json
 libraries
+.DS_Store
+.luarc.json
