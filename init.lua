@@ -72,7 +72,6 @@ vim.keymap.set("n", "<C-u>", "<C-u>zz")
 vim.keymap.set("n", "n", "nzzzv")
 
 vim.keymap.set("n", "<C-h>", ":lua vim.lsp.buf.signature_help()<CR>")
-vim.keymap.set("i", "<C-h>", ":lua vim.lsp.buf.signature_help()<CR>")
 
 vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "Code Action" })
 
@@ -413,7 +412,7 @@ require("lazy").setup({
 				function()
 					require("conform").format({
 						async = true,
-						lsp_format = false, -- ⬅ disables LSP formatting
+						lsp_format = "fallback",
 					})
 				end,
 				mode = "",
@@ -425,10 +424,20 @@ require("lazy").setup({
 			format_on_save = false,
 			formatters_by_ft = {
 				lua = { "stylua" },
+				javascript = { "prettier" },
+				typescript = { "prettier" },
+				javascriptreact = { "prettier" },
+				typescriptreact = { "prettier" },
+				vue = { "prettier" },
+				css = { "prettier" },
+				html = { "prettier" },
+				json = { "prettier" },
+				yaml = { "prettier" },
+				markdown = { "prettier" },
 			},
 			formatters = {
 				stylua = {
-					prepend_args = { "--column-width", "999999" }, -- ⬅ no max line length
+					prepend_args = { "--column-width", "999999" },
 				},
 			},
 		},
