@@ -32,11 +32,19 @@ return {
 				"cssls",
 				"gopls",
 				"stylua",
+                "clangd"
 			},
 			automatic_enable = true,
 		})
 
 		vim.lsp.config("*", {})
+
+        vim.lsp.config("clangd", {
+            cmd = {
+                "clangd",
+                "--fallback-style=webkit"
+            }
+        })
 
 		vim.lsp.config("lua_ls", {
 			capabilities = capabilities,
