@@ -32,37 +32,22 @@ return {
 				"cssls",
 				"gopls",
 				"stylua",
-                "clangd"
+				"clangd",
 			},
 			automatic_enable = true,
 		})
 
 		vim.lsp.config("*", {})
 
-        vim.lsp.config("clangd", {
-            cmd = {
-                "clangd",
-                "--fallback-style=webkit"
-            }
-        })
+		vim.lsp.config("clangd", {
+			cmd = {
+				"clangd",
+				"--fallback-style=webkit",
+			},
+		})
 
 		vim.lsp.config("lua_ls", {
 			capabilities = capabilities,
-			root_dir = function(fname)
-				local util = require("lspconfig.util")
-
-				local fx_root = util.root_pattern("fxmanifest.lua")(fname)
-				if fx_root and fx_root ~= vim.env.HOME then
-					return fx_root
-				end
-
-				local git_root = util.root_pattern(".git")(fname)
-				if git_root and git_root ~= vim.env.HOME then
-					return git_root
-				end
-
-				return vim.fs.dirname(fname)
-			end,
 			settings = {
 				Lua = {
 					telemetry = {
