@@ -20,7 +20,12 @@ return {
 		})
 		local cmp = require("cmp")
 		local cmp_lsp = require("cmp_nvim_lsp")
-		local capabilities = vim.tbl_deep_extend("force", {}, vim.lsp.protocol.make_client_capabilities(), cmp_lsp.default_capabilities())
+		local capabilities = vim.tbl_deep_extend(
+			"force",
+			{},
+			vim.lsp.protocol.make_client_capabilities(),
+			cmp_lsp.default_capabilities()
+		)
 
 		require("fidget").setup({})
 		require("mason").setup()
@@ -48,6 +53,14 @@ return {
 
 		vim.lsp.config("lua_ls", {
 			capabilities = capabilities,
+			root_markers = {
+				"fxmanifest.lua",
+				".luarc.json",
+				".luarc.jsonc",
+				".luacheckrc",
+				".stylua.toml",
+				".git",
+			},
 			settings = {
 				Lua = {
 					telemetry = {
@@ -102,69 +115,8 @@ return {
 							vim.fn.stdpath("config") .. "/libraries/lua/cfx",
 						},
 					},
-					format = {
-						enable = true,
-						defaultConfig = {
-							indent_style = "space",
-							indent_size = "4",
-						},
-					},
 				},
 			},
-			on_init = function(client)
-				if not client.config.settings then
-					client.config.settings = {}
-				end
-
-				client.config.settings.Lua = vim.tbl_deep_extend("force", client.config.settings.Lua or {}, {
-					runtime = {
-						version = "Lua 5.4",
-						pathStrict = true,
-						nonstandardSymbol = { "+=", "-=", "*=", "/=", "<<=", ">>=", "&=", "|=", "^=" },
-						plugin = vim.fn.stdpath("config") .. "/lua/assynu/lls-plugins/fivem.lua",
-						special = {
-							["lib.load"] = "require",
-						},
-					},
-					workspace = {
-						ignoreDir = {
-							".vscode",
-							".git",
-							".github",
-							"dist",
-							"stream",
-							"node_modules",
-							"web",
-						},
-						library = {
-							vim.fn.stdpath("config") .. "/libraries/lua/cfx",
-						},
-						checkThirdParty = false,
-					},
-					diagnostics = {
-						globals = {
-							"lib",
-							"cache",
-							"Core",
-							"MySQL",
-							"bit",
-							"vim",
-							"it",
-							"describe",
-							"before_each",
-							"after_each",
-						},
-					},
-					telemetry = { enable = false },
-					format = {
-						enable = true,
-						defaultConfig = {
-							indent_style = "space",
-							indent_size = "4",
-						},
-					},
-				})
-			end,
 		})
 
 		local vue_ls_path = vim.fn.expand("$MASON/packages/vue-language-server")

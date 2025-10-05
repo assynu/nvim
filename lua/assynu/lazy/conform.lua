@@ -32,21 +32,20 @@ return {
 			markdown = { "prettier" },
 		},
 		formatters = {
-			stylua = {
-				prepend_args = {
-					"--column-width",
-					"999999",
-					"--indent-type",
-					"Tabs",
-					"--indent-width",
-					"4",
+			formatters = {
+				stylua = {
+					prepend_args = {
+						"--indent-type Tabs",
+						"--indent-width 4",
+						"--column-width 99999999",
+					},
 				},
-			},
-			prettier = {
-				prepend_args = {
-					"--use-tabs",
-					"--tab-width",
-					"4",
+				prettier = {
+					prepend_args = {
+						"--use-tabs",
+						"--tab-width",
+						"4",
+					},
 				},
 			},
 		},
