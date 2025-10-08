@@ -132,7 +132,7 @@ return {
 					},
 				},
 			},
-			filetypes = { "typescript", "javascript", "vue" },
+			filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact", "vue" },
 		})
 
 		local cmp_select = { behavior = cmp.SelectBehavior.Select }
