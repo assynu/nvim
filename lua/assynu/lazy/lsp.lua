@@ -58,7 +58,6 @@ return {
 				".luarc.json",
 				".luarc.jsonc",
 				".luacheckrc",
-				".stylua.toml",
 				".git",
 			},
 			settings = {

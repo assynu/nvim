@@ -6,48 +6,41 @@ return {
 		{
 			"<leader>i",
 			function()
-				require("conform").format({
-					async = true,
-					lsp_format = "fallback",
-				})
+				require("conform").format({ async = true })
 			end,
 			mode = "",
-			desc = "[F]ormat buffer",
+			desc = "Format buffer",
 		},
 	},
 	opts = {
-		notify_on_error = false,
-		format_on_save = false,
 		formatters_by_ft = {
 			lua = { "stylua" },
-			javascript = { "prettier" },
-			typescript = { "prettier" },
-			javascriptreact = { "prettier" },
-			typescriptreact = { "prettier" },
-			vue = { "prettier" },
-			css = { "prettier" },
-			html = { "prettier" },
-			json = { "prettier" },
-			yaml = { "prettier" },
-			markdown = { "prettier" },
+			javascript = { "prettierd", "prettier", stop_after_first = true },
+		},
+		default_format_opts = {
+			lsp_format = "fallback",
 		},
 		formatters = {
-			formatters = {
-				stylua = {
-					prepend_args = {
-						"--indent-type Tabs",
-						"--indent-width 4",
-						"--column-width 99999999",
-					},
+			stylua = {
+				prepend_args = {
+					"--column-width",
+					"999999",
+					"--indent-type",
+					"Tabs",
+					"--indent-width",
+					"4",
 				},
-				prettier = {
-					prepend_args = {
-						"--use-tabs",
-						"--tab-width",
-						"4",
-					},
+			},
+			prettier = {
+				prepend_args = {
+					"--use-tabs",
+					"--tab-width",
+					"4",
 				},
 			},
 		},
 	},
+	init = function()
+		vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
+	end,
 }
