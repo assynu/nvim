@@ -84,7 +84,7 @@ return {
 							["lib.load"] = "require",
 						},
 						pathStrict = true,
-						plugin = vim.fn.stdpath("config") .. "/lua/assynu/lls-plugins/fivem.lua",
+						plugin = vim.fn.stdpath("config") .. "/lua/lls-plugins/fivem.lua",
 					},
 					diagnostics = {
 						globals = {
