@@ -20,4 +20,7 @@ end)
 
 vim.keymap.set("n", "<leader>ih", function()
 	vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ 0 }), { 0 })
+
+	local state =vim.lsp.inlay_hint.is_enabled({ 0 })
+	print("Inline hints:", state)
 end)
