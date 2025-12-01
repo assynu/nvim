@@ -35,9 +35,27 @@ return {
 		vim.lsp.config("*", {})
 
 		vim.lsp.config("clangd", {
+
 			cmd = {
 				"clangd",
 				"--fallback-style=webkit",
+			},
+		})
+
+		vim.lsp.config("gopls", {
+			settings = {
+				gopls = {
+					["ui.inlayhint.hints"] = {
+						assignVariableTypes = true,
+						compositeLiteralFields = true,
+						compositeLiteralTypes = true,
+						constantValues = true,
+						functionTypeParameters = true,
+						ignoredError = true,
+						parameterNames = true,
+						rangeVariableTypes = true,
+					},
+				},
 			},
 		})
 
