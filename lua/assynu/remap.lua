@@ -18,7 +18,7 @@ vim.keymap.set("n", "<leader><leader>", function()
 	vim.cmd("so")
 end)
 
-vim.keymap.set("n", "<leader>ih", function()
+vim.keymap.set("n", "<leader>tih", function()
 	vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ 0 }), { 0 })
 
 	local state =vim.lsp.inlay_hint.is_enabled({ 0 })
