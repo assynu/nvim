@@ -1,4 +1,5 @@
 return {
+	--[[
 	"copilotlsp-nvim/copilot-lsp",
 	init = function()
 		vim.g.copilot_nes_debounce = 500
@@ -14,4 +15,5 @@ return {
 			end
 		end, { desc = "Accept Copilot NES suggestion", expr = true })
 	end,
+	]]
 }
