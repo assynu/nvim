@@ -29,6 +29,15 @@ vim.opt.isfname:append("@-@")
 vim.opt.updatetime = 200
 vim.opt.colorcolumn = "150"
 
+vim.lsp.inlay_hint.enable(true, { 0 })
+
+vim.cmd.colorscheme("rose-pine-moon")
+
+vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
+vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
+vim.api.nvim_set_hl(0, "FloatBorder", { bg = "none" })
+vim.api.nvim_set_hl(0, "FloatTitle", { bg = "none" })
+
 vim.schedule(function()
 	vim.o.clipboard = "unnamedplus"
 end)
@@ -40,4 +49,14 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 	end,
 })
 
-vim.lsp.inlay_hint.enable(true, { 0 })
+vim.api.nvim_create_autocmd("CursorHold", {
+	callback = function()
+		local diagnostics = vim.diagnostic.get(0, { lnum = vim.fn.line(".") - 1 })
+		if #diagnostics > 0 then
+			vim.diagnostic.open_float(nil, {
+				focus = false,
+				scope = "cursor",
+			})
+		end
+	end,
+})
