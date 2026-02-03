@@ -1,4 +1,4 @@
- return {
+return {
 	"neovim/nvim-lspconfig",
 	dependencies = {
 		"stevearc/conform.nvim",
@@ -26,7 +26,6 @@
 		vim.lsp.config("*", {})
 
 		vim.lsp.config("clangd", {
-
 			cmd = {
 				"clangd",
 				"--fallback-style=webkit",
