@@ -26,7 +26,7 @@ vim.opt.scrolloff = 8
 vim.opt.signcolumn = "yes"
 vim.opt.isfname:append("@-@")
 
-vim.opt.updatetime = 200
+vim.opt.updatetime = 50
 vim.opt.colorcolumn = "150"
 
 vim.lsp.inlay_hint.enable(true, { 0 })

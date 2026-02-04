@@ -16,6 +16,7 @@ vim.keymap.set("n", "<leader>h", HarpoonShow)
 vim.keymap.set("n", "<leader>ff", ":Pick files<CR>")
 vim.keymap.set("n", "<leader>fg", ":Pick grep_live<CR>")
 vim.keymap.set("n", "<leader>fr", ":Pick resume<CR>")
+vim.keymap.set("n", "<leader>fw", ":Pick grep pattern='<cword>'<CR>")
 
 vim.keymap.set("n", "<leader>lg", "<cmd>LazyGit<CR>")
 
