@@ -27,6 +27,11 @@ vim.opt.signcolumn = "yes"
 vim.opt.isfname:append("@-@")
 
 vim.opt.updatetime = 50
+vim.opt.ttimeout = true
+vim.opt.ttimeoutlen = 10
+vim.opt.timeout = true
+vim.opt.timeoutlen = 300
+
 vim.opt.colorcolumn = "150"
 
 vim.lsp.inlay_hint.enable(true, { 0 })
