@@ -20,3 +20,8 @@ vim.keymap.set("n", "<leader>fw", ":Pick grep pattern='<cword>'<CR>")
 
 vim.keymap.set("n", "<leader>lg", "<cmd>LazyGit<CR>")
 
+vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, {
+  noremap = true,
+  silent = true,
+  desc = "LSP code action",
+})
