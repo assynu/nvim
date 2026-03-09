@@ -43,6 +43,8 @@ vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
 vim.api.nvim_set_hl(0, "FloatBorder", { bg = "none" })
 vim.api.nvim_set_hl(0, "FloatTitle", { bg = "none" })
 
+vim.opt.formatoptions:remove({ "t", "c", "r", "o" })
+
 vim.schedule(function()
 	vim.o.clipboard = "unnamedplus"
 end)
@@ -72,3 +74,8 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
+vim.api.nvim_create_autocmd("BufEnter", {
+    callback = function()
+        vim.opt_local.formatoptions:remove({ "t", "c" })
+    end,
+})
