@@ -10,12 +10,14 @@ vim.pack.add({
 	{ src = "https://github.com/supermaven-inc/supermaven-nvim.git" },
 	{ src = "https://github.com/nvim-mini/mini.nvim.git" },
 	{ src = "https://github.com/kdheepak/lazygit.nvim.git" },
+	{ src = "https://github.com/stevearc/conform.nvim.git" },
+
 })
 
 -- Mason
 require("mason").setup()
 require("mason-lspconfig").setup {
-	ensure_installed = { "lua_ls" },
+	ensure_installed = { "lua_ls", "stylua" },
 }
 
 -- Harpoon
@@ -72,5 +74,25 @@ require("rose-pine").setup({
 		bold = true,
 		italic = false,
 		transparency = true,
+	},
+})
+
+-- Conform
+
+require("conform").setup({
+	formatters_by_ft = {
+		lua = { "stylua" },
+		javascript = { "prettier" },
+		typescript = { "prettier" },
+		vue = { "prettier" },
+	},
+	formatters = {
+		stylua = {
+			prepend_args = {
+				"--column-width", "9999",
+				"--indent-type", "Tabs",
+				"--indent-width", "4",
+			},
+		},
 	},
 })
