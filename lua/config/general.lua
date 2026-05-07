@@ -26,8 +26,24 @@ vim.opt.scrolloff = 8
 vim.opt.signcolumn = "yes"
 vim.opt.isfname:append("@-@")
 
-vim.opt.updatetime = 200
+vim.opt.updatetime = 50
+vim.opt.ttimeout = true
+vim.opt.ttimeoutlen = 10
+vim.opt.timeout = true
+vim.opt.timeoutlen = 300
+
 vim.opt.colorcolumn = "150"
+
+vim.lsp.inlay_hint.enable(true, { 0 })
+
+vim.cmd.colorscheme("rose-pine-moon")
+
+vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
+vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
+vim.api.nvim_set_hl(0, "FloatBorder", { bg = "none" })
+vim.api.nvim_set_hl(0, "FloatTitle", { bg = "none" })
+
+vim.opt.formatoptions:remove({ "t", "c", "r", "o" })
 
 vim.schedule(function()
 	vim.o.clipboard = "unnamedplus"
@@ -40,4 +56,26 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 	end,
 })
 
-vim.lsp.inlay_hint.enable(true, { 0 })
+vim.api.nvim_create_autocmd("CursorHold", {
+	callback = function()
+		local diagnostics = vim.diagnostic.get(0, { lnum = vim.fn.line(".") - 1 })
+		if #diagnostics > 0 then
+			vim.diagnostic.open_float(nil, {
+				focus = false,
+				scope = "cursor",
+			})
+		end
+	end,
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+  callback = function()
+    pcall(vim.treesitter.start)
+  end,
+})
+
+vim.api.nvim_create_autocmd("BufEnter", {
+    callback = function()
+        vim.opt_local.formatoptions:remove({ "t", "c" })
+    end,
+})
