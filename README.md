@@ -1,8 +1,10 @@
-# Important
+# Neovim Configuration (v0.12+)
 
-This configuration is no longer actively developed or supported. It remains a stable release for **Neovim 0.11 and earlier**.
+A modern, streamlined configuration built specifically for **Neovim 0.12 and newer**.
 
-All ongoing development and new updates are available in the  
-[v0.12.0-dev](https://github.com/assynu/nvim/tree/v0.12.0-dev) branch, targeting **Neovim 0.12**.
+This branch takes full advantage of the native `vim.pack` package manager, resulting in a cleaner setup, fewer external dependencies, and a more future-proof workflow aligned with Neovim’s direction.
 
-Once Neovim 0.12 is officially released, the `v0.12.0-dev` branch will be merged into `main`.
+> [!CAUTION]
+> Requires **Neovim 0.12+**.  
+> This configuration uses the native `vim.pack` system and is **not compatible** with Neovim 0.11 or earlier.  
+> If you're running an older version, use the stable `main` branch instead.
