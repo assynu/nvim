@@ -94,5 +94,8 @@ require("conform").setup({
 				"--indent-width", "4",
 			},
 		},
+		prettier = {
+			prepend_args = { "--use-tabs", "--tab-width", "4" },
+		},
 	},
 })
