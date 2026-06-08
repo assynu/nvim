@@ -4,7 +4,7 @@ vim.keymap.set("n", "<leader>q", ":quit<CR>")
 vim.keymap.set("n", "<leader>o", ":update<CR> :source<CR>")
 --vim.keymap.set("n", "<leader>i", vim.lsp.buf.format)
 vim.keymap.set("n", "<leader>i", function()
-    require("conform").format({ async = true })
+	require("conform").format({ async = true })
 end)
 
 vim.keymap.set("n", "J", "mzJ`z")
@@ -24,7 +24,19 @@ vim.keymap.set("n", "<leader>fw", ":Pick grep pattern='<cword>'<CR>")
 vim.keymap.set("n", "<leader>lg", "<cmd>LazyGit<CR>")
 
 vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, {
-  noremap = true,
-  silent = true,
-  desc = "LSP code action",
+	noremap = true,
+	silent = true,
+	desc = "LSP code action",
 })
+
+vim.keymap.set("v", "<leader>v", function()
+	_99.visual()
+end)
+
+vim.keymap.set("n", "<leader>x", function()
+	_99.stop_all_requests()
+end)
+
+vim.keymap.set("n", "<leader>s", function()
+	_99.search()
+end)

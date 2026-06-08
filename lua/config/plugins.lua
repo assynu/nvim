@@ -8,6 +8,7 @@ vim.pack.add({
 	{ src = "https://github.com/rose-pine/neovim.git" },
 	{ src = "https://github.com/assynu/fivem.nvim.git" },
 	{ src = "https://github.com/supermaven-inc/supermaven-nvim.git" },
+	{ src = "https://github.com/ThePrimeagen/99.git" },
 	{ src = "https://github.com/nvim-mini/mini.nvim.git" },
 	{ src = "https://github.com/kdheepak/lazygit.nvim.git" },
 	{ src = "https://github.com/stevearc/conform.nvim.git" },
@@ -49,6 +50,22 @@ require("supermaven-nvim").setup({
 		accept_suggestion = "<Tab>",
 		clear_suggestion = "<C-]>",
 	},
+})
+
+-- 99
+_99 = require("99")
+local basename = vim.fs.basename(vim.uv.cwd())
+
+_99.setup({
+    provider = _99.Providers.ClaudeCodeProvider,
+    logger = {
+        level = _99.DEBUG,
+        path = "/tmp/" .. basename .. ".99.debug",
+        print_on_error = true,
+    },
+    tmp_dir = "./tmp",
+    completion = { source = "native" },
+    md_files = { "AGENT.md" },
 })
 
 -- Mini
